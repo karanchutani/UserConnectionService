@@ -1,6 +1,7 @@
 package com.assignment.AstrotalkAssignment.exception.handler;
 
 import com.assignment.AstrotalkAssignment.DTO.ErrorResponseDTO;
+import com.assignment.AstrotalkAssignment.exception.ConnectionAlreadyExistException;
 import com.assignment.AstrotalkAssignment.exception.InvalidDataException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +27,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
      * @return object
      */
 
- /*   @ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex) {
         final List<String> details = new ArrayList<>();
         details.add(ex.toString());
         ErrorResponseDTO error = new ErrorResponseDTO("Server Error", details);
         return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    }*/
+    }
 
     /**
      * This is handleInvalidDataException method.
@@ -47,4 +48,19 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponseDTO error = new ErrorResponseDTO("Invalid request", details);
         return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
     }
+
+    /**
+     * This is handleInvalidDataException method.
+     * @param ex ex
+     * @return object
+     */
+
+    @ExceptionHandler(ConnectionAlreadyExistException.class)
+    public final ResponseEntity<Object> handleConnectionAlreadyExist(ConnectionAlreadyExistException ex) {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        ErrorResponseDTO error = new ErrorResponseDTO("Invalid request", details);
+        return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
+    }
+
 }
